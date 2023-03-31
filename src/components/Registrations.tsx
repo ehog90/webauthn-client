@@ -46,7 +46,7 @@ const Registrations: React.FunctionComponent<IRegistrationsProps> = (props) => {
         displayName: userData.userName,
       },
       authenticatorSelection: {
-        authenticatorAttachment: 'platform',
+        authenticatorAttachment: 'cross-platform',
       },
       pubKeyCredParams: [{ alg: -7, type: 'public-key' }],
       timeout: 60000,
