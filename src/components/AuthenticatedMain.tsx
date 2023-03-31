@@ -1,6 +1,6 @@
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import * as React from 'react';
+import { Fragment, FunctionComponent, useEffect } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 
@@ -8,10 +8,14 @@ import { useAxios } from '../hooks/useAxios';
 import { IUserData } from '../interfaces/login.interfaces';
 import { useAppDispatch } from '../redux/hooks';
 import { setUser } from '../redux/user.slice';
+import AnimatedLogo from './AnimatedLogo';
+import styles from './AuthenticatedMain.module.scss';
 
-interface IAuthedProps {}
+interface IAuthenticatedMainProps {}
 
-const Authed: React.FunctionComponent<IAuthedProps> = (props) => {
+const AuthenticatedMain: FunctionComponent<IAuthenticatedMainProps> = (
+  props
+) => {
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
@@ -21,26 +25,29 @@ const Authed: React.FunctionComponent<IAuthedProps> = (props) => {
     errorCode: userDataErrorCode,
   } = useAxios<IUserData>('login/user-data');
 
-  React.useEffect(() => {
+  useEffect(() => {
     getUserData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if ('401' === userDataErrorCode) {
       navigate('./login');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userDataErrorCode]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     userData && dispatch(setUser(userData));
   }, [dispatch, userData]);
 
   return (
-    <React.Fragment>
+    <Fragment>
       <Navbar bg='primary' variant='dark'>
         <Container>
+          <Navbar.Brand>
+            <AnimatedLogo className={styles.logo}></AnimatedLogo>WebAuthn Demo
+          </Navbar.Brand>
           <Nav className='me-auto'>
             <NavLink to='./home' className='nav-link'>
               Home
@@ -48,20 +55,26 @@ const Authed: React.FunctionComponent<IAuthedProps> = (props) => {
             <NavLink to='./registrations' className='nav-link'>
               Registrations
             </NavLink>
-            <NavLink to='./logout' className='nav-link'>
-              Logout
-            </NavLink>
           </Nav>
           <Navbar.Collapse className='justify-content-end'>
             <Navbar.Text>
               {userData && (
-                <React.Fragment>
-                  <FontAwesomeIcon
-                    icon={faUser}
-                    className='me-2'
-                  ></FontAwesomeIcon>
-                  {userData.userName}
-                </React.Fragment>
+                <div className={styles.userData}>
+                  <div>
+                    <FontAwesomeIcon
+                      icon={faUser}
+                      className='me-2'
+                    ></FontAwesomeIcon>
+                    {userData.userName}
+                  </div>
+                  <div role='button'>
+                    <NavLink to='./logout'>
+                      <FontAwesomeIcon
+                        icon={faRightFromBracket}
+                      ></FontAwesomeIcon>
+                    </NavLink>
+                  </div>
+                </div>
               )}
             </Navbar.Text>
           </Navbar.Collapse>
@@ -70,8 +83,8 @@ const Authed: React.FunctionComponent<IAuthedProps> = (props) => {
       <Container className='mt-2'>
         <Outlet></Outlet>
       </Container>
-    </React.Fragment>
+    </Fragment>
   );
 };
 
-export default Authed;
+export default AuthenticatedMain;

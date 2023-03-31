@@ -4,5 +4,6 @@
     "source.fixAll.eslint": true,
     "source.organizeImports": true
   },
-  "svg.preview.background": "dark-transparent"
+  "svg.preview.background": "dark-transparent",
+  "reactSnippets.settings.importReactOnTop": false
 }
