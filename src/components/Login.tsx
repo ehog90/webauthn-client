@@ -32,8 +32,9 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
     post: loginWithWebauthn,
   } = useAxios<ILoginResponse>('login/webauthn');
 
-  const { data: newKey, post: getNewKey } =
-    useAxios<IRandomKeyResponse>('webauthn/key');
+  const { data: newKey, post: getNewKey } = useAxios<IRandomKeyResponse>(
+    'webauthn/key-unauthed'
+  );
 
   React.useEffect(() => {
     if (loginWithPasswordData?.token) {
