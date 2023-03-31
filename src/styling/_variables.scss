@@ -1,5 +1,10 @@
 $min-contrast-ratio: 3;
-$primary: rgb(238, 76, 0);
+
+$white: white;
+$primary: rgb(238, 56, 0);
+
+
+$navbar-dark-color: rgba($white, .75);
 
 
 @import '~bootstrap/scss/functions';
