@@ -1,4 +1,9 @@
-import { faFingerprint } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEye,
+  faFaceSmile,
+  faFingerprint,
+  faQrcode,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Buffer } from 'buffer';
 import * as React from 'react';
@@ -13,12 +18,15 @@ import styles from './Login.module.scss';
 
 interface ILoginProps {}
 
+const icons = [faQrcode, faFingerprint, faEye, faFaceSmile];
+
 const Login: React.FunctionComponent<ILoginProps> = (props) => {
   const navigate = useNavigate();
 
   const [authMode, setAuthMode] = useLocalStorage('authMode', 'password');
   const [userName, setUserName] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [displayedIconIndex, setDisplayedIconIndex] = React.useState(0);
 
   const {
     data: loginWithPasswordData,
@@ -49,6 +57,16 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
       navigate('/authed/home');
     }
   }, [loginWithWebauthnData, navigate]);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setDisplayedIconIndex((index) => (index + 1) % icons.length);
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
   const handleLogin = React.useCallback(() => {
     loginWithPassword({ body: { userName, password } });
@@ -121,7 +139,9 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
               role='button'
               onClick={handleLoginWebauthn}
             >
-              <FontAwesomeIcon icon={faFingerprint}></FontAwesomeIcon>
+              <FontAwesomeIcon
+                icon={icons[displayedIconIndex]}
+              ></FontAwesomeIcon>
             </div>
           </React.Fragment>
         )}
