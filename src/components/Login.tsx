@@ -2,6 +2,7 @@ import {
   faEye,
   faFaceSmile,
   faFingerprint,
+  faMobile,
   faQrcode,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,7 +19,7 @@ import styles from './Login.module.scss';
 
 interface ILoginProps {}
 
-const icons = [faQrcode, faFingerprint, faEye, faFaceSmile];
+const icons = [faQrcode, faFingerprint, faEye, faFaceSmile, faMobile];
 
 const Login: React.FunctionComponent<ILoginProps> = (props) => {
   const navigate = useNavigate();
