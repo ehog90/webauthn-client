@@ -1,0 +1,8 @@
+{
+  "workbench.colorTheme": "Monokai",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.organizeImports": true
+  },
+  "svg.preview.background": "dark-transparent"
+}

@@ -1,0 +1,17 @@
+@import "../styling/variables";
+
+.auth {
+    border: .1rem solid $primary;
+    padding: .5rem;
+    border-radius: .5rem;
+
+    h5 {
+        color: $primary;
+    }
+
+    .details {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+}

@@ -1,0 +1,67 @@
+@import "../styling/variables";
+
+.loginContainer {
+    padding: 1rem;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &>.login {
+        width: 60%;
+        border: .2rem solid $primary;
+        border-radius: 1rem;
+        color: $primary;
+        padding: 1rem;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+
+        @include media-breakpoint-down(sm) {
+            width: 100%
+        }
+
+        h3 {
+            color: $primary;
+        }
+
+        .loginItem {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+
+            input {
+
+                border-radius: .3rem;
+                color: $primary;
+                border: .1rem solid $primary;
+                background-color: lighten($primary, 50%);
+                padding: .5rem;
+            }
+        }
+
+        .webauthn {
+            font-size: 600%;
+        }
+
+        .error {
+            padding: .5rem;
+            border-radius: .3rem;
+            background-color: lighten($danger, 50%);
+            color: $danger;
+            border: .1rem solid $danger;
+            font-size: smaller;
+        }
+
+        .loginButtons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    }
+}
