@@ -1,5 +1,6 @@
 {
   "name": "webauthn-client",
+  "author": "Bence Ujj",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
