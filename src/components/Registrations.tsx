@@ -1,5 +1,5 @@
 import { Buffer } from 'buffer';
-import * as React from 'react';
+import { Fragment, FunctionComponent, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 
 import { useAxios } from '../hooks/useAxios';
@@ -12,7 +12,7 @@ import styles from './Registrations.module.scss';
 
 interface IRegistrationsProps {}
 
-const Registrations: React.FunctionComponent<IRegistrationsProps> = (props) => {
+const Registrations: FunctionComponent<IRegistrationsProps> = (props) => {
   const { data: newKey, post: getNewKey } =
     useAxios<IRandomKeyResponse>('webauthn/key');
   const userData = useAppSelector(selectUserData);
@@ -25,11 +25,11 @@ const Registrations: React.FunctionComponent<IRegistrationsProps> = (props) => {
   const { delete: deleteAuth } =
     useAxios<IAuthentication[]>('authentication/:id');
 
-  React.useEffect(() => {
+  useEffect(() => {
     getAuthentications();
   }, [getAuthentications]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!userData || !newKey) {
       return;
     }
@@ -82,7 +82,7 @@ const Registrations: React.FunctionComponent<IRegistrationsProps> = (props) => {
   };
 
   return (
-    <React.Fragment>
+    <Fragment>
       <h2>Register</h2>
       <div>
         <Button variant='primary' onClick={handleRegisterDevice}>
@@ -99,7 +99,7 @@ const Registrations: React.FunctionComponent<IRegistrationsProps> = (props) => {
           ></Authentication>
         ))}
       </div>
-    </React.Fragment>
+    </Fragment>
   );
 };
 

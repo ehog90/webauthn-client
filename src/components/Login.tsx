@@ -1,13 +1,11 @@
-import {
-  faEye,
-  faFaceSmile,
-  faFingerprint,
-  faMobile,
-  faQrcode,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Buffer } from 'buffer';
-import * as React from 'react';
+import {
+  Fragment,
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
@@ -15,19 +13,17 @@ import { useLocalStorage } from 'usehooks-ts';
 import { useAxios } from '../hooks/useAxios';
 import { IRandomKeyResponse } from '../interfaces/device-reg.interface';
 import { ILoginResponse } from '../interfaces/login.interfaces';
+import AnimatedLogo from './AnimatedLogo';
 import styles from './Login.module.scss';
 
 interface ILoginProps {}
 
-const icons = [faQrcode, faFingerprint, faEye, faFaceSmile, faMobile];
-
-const Login: React.FunctionComponent<ILoginProps> = (props) => {
+const Login: FunctionComponent<ILoginProps> = (props) => {
   const navigate = useNavigate();
 
   const [authMode, setAuthMode] = useLocalStorage('authMode', 'password');
-  const [userName, setUserName] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [displayedIconIndex, setDisplayedIconIndex] = React.useState(0);
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
 
   const {
     data: loginWithPasswordData,
@@ -45,31 +41,21 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
     'webauthn/key-unauthed'
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (loginWithPasswordData?.token) {
       localStorage.setItem('ACCESS_TOKEN', loginWithPasswordData.token);
       navigate('/authed/home');
     }
   }, [loginWithPasswordData, navigate]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (loginWithWebauthnData?.token) {
       localStorage.setItem('ACCESS_TOKEN', loginWithWebauthnData.token);
       navigate('/authed/home');
     }
   }, [loginWithWebauthnData, navigate]);
 
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setDisplayedIconIndex((index) => (index + 1) % icons.length);
-    }, 1000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
-
-  const handleLogin = React.useCallback(() => {
+  const handleLogin = useCallback(() => {
     loginWithPassword({ body: { userName, password } });
   }, [loginWithPassword, password, userName]);
 
@@ -81,7 +67,7 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
     setAuthMode((v) => (v === 'password' ? 'webauthn' : 'password'));
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!newKey) {
       return;
     }
@@ -114,7 +100,7 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
       <div className={styles.login}>
         <h3>Login</h3>
         {authMode === 'password' && (
-          <React.Fragment>
+          <Fragment>
             <div className={styles.loginItem}>
               <label>Username</label>
               <input
@@ -131,20 +117,18 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
                 onChange={(evt) => setPassword(evt.target.value)}
               />
             </div>
-          </React.Fragment>
+          </Fragment>
         )}
         {authMode === 'webauthn' && (
-          <React.Fragment>
+          <Fragment>
             <div
               className={styles.webauthn}
               role='button'
               onClick={handleLoginWebauthn}
             >
-              <FontAwesomeIcon
-                icon={icons[displayedIconIndex]}
-              ></FontAwesomeIcon>
+              <AnimatedLogo></AnimatedLogo>
             </div>
-          </React.Fragment>
+          </Fragment>
         )}
 
         <div className={styles.loginButtons}>

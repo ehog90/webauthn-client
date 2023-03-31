@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import * as React from 'react';
+import { FunctionComponent } from 'react';
 import { Button } from 'react-bootstrap';
 
 import { IAuthentication } from '../interfaces/authentication.interface';
@@ -10,7 +10,7 @@ interface IAuthenticationProps {
   onDelete: (auth: IAuthentication) => void;
 }
 
-const Authentication: React.FunctionComponent<IAuthenticationProps> = ({
+const Authentication: FunctionComponent<IAuthenticationProps> = ({
   auth,
   onDelete,
 }) => {
